@@ -1,7 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 function App() {
-  const [cocktails, setCocktails] = React.useState('');
+  const [cocktails, setCocktails] = useState("");
+  const [drinks, setDrinks] = useState([]);
+
+  useEffect(() => {
+    fetch(`url`)
+      .then((res) => res.json())
+      .then((response) => {
+        setDrinks(response.items);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
   return (
     <div className="App">
       <h1>Find a cocktail recipe</h1>
