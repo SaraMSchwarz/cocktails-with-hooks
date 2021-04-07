@@ -1,4 +1,7 @@
+import React, { useState } from 'react';
+
 function App() {
+  const [cocktails, setCocktails] = React.useState('');
   return (
     <div className="App">
       <h1>Find a cocktail recipe</h1>
