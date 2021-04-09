@@ -13,35 +13,58 @@ const getData = async (search) => {
   return json.results;
 };
 
-function App() {
-  const [cocktails, setCocktails] = useState("");
+const useApi = () => {
   const [drinks, setDrinks] = useState([]);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
-    fetch(`url`)
-      .then((res) => res.json())
-      .then((response) => {
-        setDrinks(response.items);
-      })
-      .catch((error) => console.log(error));
-  }, []);
+    const fetchCocktails = async () => {
+      const results = await getData(search);
+      setDrinks(results);
+    };
+    fetchCocktails();
+  }, [search]);
+
+  const doFetch = query => {
+    setSearch(query);
+  };
+
+  return { drinks, doFetch };
+};
+
+function App() {
+  const [cocktails, setCocktails] = useState("");
+  const { drinks, doFetch } = useApi();
 
   return (
     <div className="App">
-      <h1>Find a cocktail recipe</h1>
-      <input
-        placeholder="write here"
-        onChange={(e) => setCocktails(e.target.value)}
-        value="cocktails"
-      />
-      <button type="submit">Search</button>
-      <ul>
-      {cocktails.map((cocktail) => (
-        <li key{cocktail.title}></li>
-      ))}
-      </ul>
-    </div>
-  );
+          <div className="Header">
+            <h1 className="lead">Search for Cocktails by Ingredient</h1>
+            <form
+              onSubmit={e => {
+                doFetch(cocktails);
+                e.preventDefault();
+              }}
+            >
+              <input
+                placeholder="Search here"
+                onChange={e => setCocktails(e.target.value)}
+                value={cocktails}
+              />
+              <button type="submit">
+              </button>
+            </form>
+          </div>
+          <ul>
+            {drinks.map(drink => (
+              <li key={drink.title}>
+                  <span>{recipe.title}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
 }
 
 export default App;
