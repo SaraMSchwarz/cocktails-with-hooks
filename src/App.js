@@ -1,4 +1,17 @@
 import React, { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
+
+//search by ingredient
+
+const getData = async (search) => {
+  const url = `www.thecocktaildb.com/api/json/v1/1/search.php?i=${search}`;
+
+  const response = await fetch(url).catch(() =>
+    console.log("Can’t access " + url + " response. Blocked by browser?")
+  );
+  const json = await response.json();
+  return json.results;
+};
 
 function App() {
   const [cocktails, setCocktails] = useState("");
@@ -22,6 +35,11 @@ function App() {
         value="cocktails"
       />
       <button type="submit">Search</button>
+      <ul>
+      {cocktails.map((cocktail) => (
+        <li key{cocktail.title}></li>
+      ))}
+      </ul>
     </div>
   );
 }
